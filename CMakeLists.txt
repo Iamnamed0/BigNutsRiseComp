@@ -6,21 +6,16 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Release)
 
 if (WINDOWS)
-
-    # TODO, cross compile is borked... need freetype lib
-
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -O3 -D WINDOWS")
-    set(SFML_DIR "include/SFML-2.5.1-mingw64/lib/cmake/SFML/")
-
-    set(FREETYPE_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/freetype2)
-    set(FREETYPE_LIBRARY ${PROJECT_SOURCE_DIR}/include/SFML-2.5.1-mingw64/lib)
-
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -O3 -D WINDOWS -static-libgcc -static-libstdc++ -static")
+    set(SFML_STATIC_LIBRARIES TRUE)
+    set(SFML_DIR "include/SFML-2.5.1/build")
+    set(GLEW_LIBRARIES "${PROJECT_SOURCE_DIR}/lib/libGLEW.a")
+    set(FREETYPE_LIBRARY "${PROJECT_SOURCE_DIR}/include/SFML-2.5.1/extlibs/libs-mingw/x64/libfreetype.a")
+    set(FREETYPE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/SFML-2.5.1/extlibs/headers/freetype2")
     find_package(OpenGL REQUIRED)
     find_package(SFML 2.5.1 COMPONENTS system window graphics audio REQUIRED)
     include_directories(include ${OPENGL_INCLUDE_DIRS})
-
     add_executable(Jerboa src/main.cpp)
-
     target_link_libraries(Jerboa sfml-system sfml-window sfml-graphics sfml-audio ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 else ()

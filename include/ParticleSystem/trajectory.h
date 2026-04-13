@@ -55,7 +55,7 @@ const int CACHE_SIZE_BYTES = 1e6;
     std::tm tm = *std::localtime(&t);
     std::stringstream ss;
     ss << "trajectory-";
-    ss << std::put_time(&tm, "%c %Z");
+    ss << std::put_time(&tm, "%Y-%m-%d_%H-%M-%S");
     file = ss.str();
     size = 0;
   }
